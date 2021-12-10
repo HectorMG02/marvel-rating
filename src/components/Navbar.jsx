@@ -8,6 +8,7 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
+import { FilterContext } from "../context/FilterProvider";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -62,7 +63,7 @@ const StyledLink = styled(Link)(({ theme }) => ({
 }));
 
 const Navbar = () => {
-  const [filter, setFilter] = React.useState("");
+  const { filter, setFilter } = React.useContext(FilterContext);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
