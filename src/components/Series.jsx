@@ -33,9 +33,7 @@ const Series = () => {
 
       <div className="row mt-5">
         {cards.map((card) => (
-          <div className="col-md-4 col-xs-12 my-3">
-            <FilmCard />
-          </div>
+          <FilmCard />
         ))}
       </div>
     </div>

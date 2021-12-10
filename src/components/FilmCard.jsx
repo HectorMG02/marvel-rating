@@ -7,25 +7,36 @@ import { Button } from "@material-ui/core";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import EventIcon from "@mui/icons-material/Event";
 
-const FilmCard = () => {
-  const [rating, setRating] = React.useState(2);
+const FilmCard = (props) => {
+  const { card } = props;
+  const [rating, setRating] = React.useState(0);
+
+  console.table(card);
 
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        component="img"
-        height="140"
-        image="/static/images/cards/contemplative-reptile.jpg"
-        alt="green iguana"
-      />
+      <CardMedia component="img" image={card.cover_url} alt={card.title} />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Lizard
+        <Typography gutterBottom variant="h6" component="div">
+          {card.title}
         </Typography>
+
+        <div className="text-muted">
+          Duración: ({card.duration} min)
+          <AccessTimeIcon fontSize="small" />
+          <br />
+          Fecha de estreno: {card.release_date} <EventIcon fontSize="small" />
+          <br />
+          Fase: {card.phase}
+          <br />
+          Escenas postcréditos: {card.post_credit_scenes}
+        </div>
+        <hr />
         <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {card.overview}
         </Typography>
       </CardContent>
       <CardActions className="justify-content-between">
