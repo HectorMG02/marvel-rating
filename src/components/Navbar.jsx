@@ -62,6 +62,8 @@ const StyledLink = styled(Link)(({ theme }) => ({
 }));
 
 const Navbar = () => {
+  const [filter, setFilter] = React.useState("");
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -86,6 +88,8 @@ const Navbar = () => {
             <StyledInputBase
               placeholder="Spiderman..."
               inputProps={{ "aria-label": "search" }}
+              search={filter}
+              onChange={(e) => setFilter(e.target.value)}
             />
           </Search>
           <Button variant="contained" className="ml-2" color="default">
