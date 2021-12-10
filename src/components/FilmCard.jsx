@@ -14,8 +14,6 @@ const FilmCard = (props) => {
   const { card } = props;
   const [rating, setRating] = React.useState(0);
 
-  console.table(card);
-
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia component="img" image={card.cover_url} alt={card.title} />
