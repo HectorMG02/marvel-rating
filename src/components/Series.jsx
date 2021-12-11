@@ -1,5 +1,4 @@
 import React from "react";
-import { withRouter } from "react-router";
 import FilmCard from "./FilmCard";
 
 const Series = () => {
@@ -32,9 +31,9 @@ const Series = () => {
       <hr />
 
       <div className="row mt-5">
-        {cards.map((card) => (
+        {/*cards.map((card) => (
           <FilmCard />
-        ))}
+        ))*/}
       </div>
     </div>
   );
