@@ -55,7 +55,7 @@ const Pelis = () => {
         <h3 className="text-center">Inicia sesión para ver las pelis🍿</h3>
       ) : (
         <div>
-          <h3 className="text-center">Películas de Márvel</h3>
+          <h3 className="text-center">Películas de Márvel 🍿</h3>
           <hr />
 
           <div className="row mt-5">
