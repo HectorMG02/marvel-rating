@@ -1,5 +1,5 @@
 import React from "react";
-import { db, auth, provider } from "../firebase";
+import { auth, provider } from "../firebase";
 
 export const FilterContext = React.createContext();
 

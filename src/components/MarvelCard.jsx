@@ -15,37 +15,41 @@ const MarvelCard = (props) => {
   const { user } = React.useContext(FilterContext);
   const [rating, setRating] = React.useState(0);
 
-  React.useEffect(async () => {
-    const { uid } = user;
-    const { id } = card;
+  React.useEffect(() => {
+    async function fetchData() {
+      const { uid } = user;
+      const { id } = card;
 
-    const snapshot = await db
-      .collection("marvel-rating")
-      .where("uid", "==", uid)
-      .where(`${type}_id`, "==", id)
-      .get();
+      const snapshot = await db
+        .collection("marvel-rating")
+        .where("uid", "==", uid)
+        .where(`${type}_id`, "==", id)
+        .get();
 
-    if (snapshot.empty) {
-      if (type == "film") {
-        db.collection("marvel-rating").add({
-          uid: uid,
-          film_id: id,
-          rating: 0,
-        });
-      } else if (type == "serie") {
-        db.collection("marvel-rating").add({
-          uid: uid,
-          serie_id: id,
-          rating: 0,
-        });
+      if (snapshot.empty) {
+        if (type === "film") {
+          db.collection("marvel-rating").add({
+            uid: uid,
+            film_id: id,
+            rating: 0,
+          });
+        } else if (type === "serie") {
+          db.collection("marvel-rating").add({
+            uid: uid,
+            serie_id: id,
+            rating: 0,
+          });
+        }
+      } else {
+        const doc = snapshot.docs[0];
+        const data = doc.data();
+
+        setRating(data.rating);
       }
-    } else {
-      const doc = snapshot.docs[0];
-      const data = doc.data();
-
-      setRating(data.rating);
     }
-  }, []);
+
+    fetchData();
+  }, [card, user, type]);
 
   const addRating = async (value) => {
     const { uid } = user;
@@ -71,7 +75,7 @@ const MarvelCard = (props) => {
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 }} className="marvelCard">
       <CardMedia component="img" image={card.cover_url} alt={card.title} />
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
@@ -79,7 +83,7 @@ const MarvelCard = (props) => {
         </Typography>
 
         <div className="text-muted">
-          {type == "film" ? (
+          {type === "film" ? (
             <span>
               Duración: ({card.duration} min)
               <AccessTimeIcon size="small" />

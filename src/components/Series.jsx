@@ -4,70 +4,77 @@ import moment from "moment";
 import { FilterContext } from "../context/FilterProvider";
 
 const Series = () => {
-  const { filter, setFilter, user } = React.useContext(FilterContext);
+  const { filter, user } = React.useContext(FilterContext);
   const [cards, setCards] = React.useState([]);
   const [copy, setCopy] = React.useState([]);
   const [orderBy, setOrderBy] = React.useState(0);
 
   const options = ["Fecha de salida", "Ordenar por fase"];
 
-  React.useEffect(async () => {
-    const url =
-      "https://mcuapi.herokuapp.com/api/v1/tvshows?order=release_date%2CDESC";
+  React.useEffect(() => {
+    async function fetchData() {
+      const url =
+        "https://mcuapi.herokuapp.com/api/v1/tvshows?order=release_date%2CDESC";
 
-    await fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        let series_data = data.data.sort((a, b) => {
-          return moment(b.release_date).diff(moment(a.release_date));
+      await fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          let series_data = data.data.sort((a, b) => {
+            return moment(b.release_date).diff(moment(a.release_date));
+          });
+
+          series_data = series_data.filter((film) => {
+            let film_date = film.release_date;
+            if (!film_date) return false;
+
+            let today = moment().format("YYYY-MM-DD");
+            let serieIsAfterToday = moment(film_date).isAfter(today);
+
+            if (!serieIsAfterToday) return film;
+            else return false;
+          });
+
+          setCards(series_data);
+          setCopy(series_data);
         });
+    }
 
-        series_data = series_data.filter((film) => {
-          let film_date = film.release_date;
-          if (!film_date) return false;
-
-          let today = moment().format("YYYY-MM-DD");
-          let serieIsAfterToday = moment(film_date).isAfter(today);
-
-          if (!serieIsAfterToday) return film;
-        });
-
-        setCards(series_data);
-        setCopy(series_data);
-      });
+    fetchData();
   }, []);
 
   React.useEffect(() => {
     let cards_filter = copy.filter((card) => {
-      const { title, overview } = card;
+      const { title } = card;
       const title_lower = title.toLowerCase();
       const filter_lower = filter.toLowerCase();
 
       if (title_lower.includes(filter_lower)) return card;
+      else return false;
     });
 
     setCards(cards_filter);
-  }, [filter]);
+  }, [filter, copy]);
 
   const changeOrderBy = (val) => {
     setOrderBy(Number(val));
     let cards_sorted;
 
     let cards_filter = copy.filter((card) => {
-      const { title, overview } = card;
+      const { title } = card;
       const title_lower = title.toLowerCase();
       const filter_lower = filter.toLowerCase();
 
       if (title_lower.includes(filter_lower)) return card;
+      else return false;
     });
 
-    if (val == 0) {
+    if (val === 0) {
       cards_sorted = cards_filter.sort((a, b) => {
         return moment(b.release_date).diff(moment(a.release_date));
       });
 
       setCards(cards_sorted);
-    } else if (val == 1) {
+    } else if (val === 1) {
       cards_sorted = cards_filter.sort((a, b) => {
         return a.phase - b.phase;
       });
