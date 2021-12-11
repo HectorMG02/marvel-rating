@@ -2,6 +2,7 @@ import React from "react";
 import FilmCard from "./FilmCard";
 import moment from "moment";
 import { FilterContext } from "../context/FilterProvider";
+import { db } from "../firebase";
 
 const Pelis = () => {
   const { filter, setFilter, user } = React.useContext(FilterContext);
@@ -11,11 +12,12 @@ const Pelis = () => {
 
   const options = ["Fecha de salida", "Ordenar por fase"];
 
-  React.useEffect(() => {
+  React.useEffect(async () => {
+    let abortController = new AbortController();
     const url =
       "https://mcuapi.herokuapp.com/api/v1/movies?page=1&order=chronology%2CDESC";
 
-    fetch(url)
+    await fetch(url)
       .then((response) => response.json())
       .then((data) => {
         let films_data = data.data.sort((a, b) => {
@@ -38,30 +40,42 @@ const Pelis = () => {
   }, []);
 
   React.useEffect(() => {
-    if (filter) {
-      let cards_filter = copy.filter((card) => {
-        const { title, overview } = card;
-        const title_lower = title.toLowerCase();
-        const filter_lower = filter.toLowerCase();
+    let cards_filter = copy.filter((card) => {
+      const { title, overview } = card;
+      const title_lower = title.toLowerCase();
+      const filter_lower = filter.toLowerCase();
 
-        if (title_lower.includes(filter_lower)) return card;
-      });
+      if (title_lower.includes(filter_lower)) return card;
+    });
 
-      setCards(cards_filter);
-    }
+    setCards(cards_filter);
   }, [filter]);
 
   const changeOrderBy = (val) => {
     setOrderBy(Number(val));
-    let cards_order = cards.sort((a, b) => {
-      if (val == 0) {
-        return moment(b.release_date).diff(moment(a.release_date));
-      } else if (val == 1) {
-        return a.phase - b.phase;
-      }
+    let cards_sorted;
+
+    let cards_filter = copy.filter((card) => {
+      const { title, overview } = card;
+      const title_lower = title.toLowerCase();
+      const filter_lower = filter.toLowerCase();
+
+      if (title_lower.includes(filter_lower)) return card;
     });
 
-    setCards(cards_order);
+    if (val == 0) {
+      cards_sorted = cards_filter.sort((a, b) => {
+        return moment(b.release_date).diff(moment(a.release_date));
+      });
+
+      setCards(cards_sorted);
+    } else if (val == 1) {
+      cards_sorted = cards_filter.sort((a, b) => {
+        return a.phase - b.phase;
+      });
+
+      setCards(cards_sorted);
+    }
   };
 
   return (

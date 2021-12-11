@@ -31,9 +31,9 @@ const Series = () => {
       <hr />
 
       <div className="row mt-5">
-        {cards.map((card) => (
+        {/*cards.map((card) => (
           <FilmCard />
-        ))}
+        ))*/}
       </div>
     </div>
   );
