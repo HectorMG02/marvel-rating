@@ -83,7 +83,7 @@ const Pelis = () => {
         <h3 className="text-center">Inicia sesión para ver las pelis🍿</h3>
       ) : (
         <div>
-          <h3 className="text-center">Películas de Márvel 🍿</h3>
+          <h3 className="text-center">Películas de Marvel 🍿</h3>
           <hr />
 
           <div className="row">
@@ -108,9 +108,9 @@ const Pelis = () => {
             </div>
           </div>
 
-          <div className="row mt-5">
+          <div className="row mt">
             {cards.map((card) => (
-              <div key={card.id} className="col-md-4 col-xs-12 my-3">
+              <div key={card.id} className="col-md-4 col-sm-6 col-xs-12 my-3">
                 <MarvelCard card={card} type="film" />
               </div>
             ))}
