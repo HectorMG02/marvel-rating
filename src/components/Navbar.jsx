@@ -9,6 +9,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import { FilterContext } from "../context/FilterProvider";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import LockIcon from "@mui/icons-material/Lock";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -102,6 +104,7 @@ const Navbar = () => {
               onClick={() => loginUser()}
             >
               Iniciar sesión
+              <LockOpenIcon size="small" className="ml-2" />
             </Button>
           ) : (
             <Button
@@ -111,6 +114,7 @@ const Navbar = () => {
               onClick={() => logout()}
             >
               Cerrar sesión
+              <LockIcon size="small" className="ml-2" />
             </Button>
           )}
         </Toolbar>
