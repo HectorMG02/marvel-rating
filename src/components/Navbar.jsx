@@ -63,7 +63,8 @@ const StyledLink = styled(Link)(({ theme }) => ({
 }));
 
 const Navbar = () => {
-  const { filter, setFilter } = React.useContext(FilterContext);
+  const { filter, setFilter, user, loginUser, logout } =
+    React.useContext(FilterContext);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -93,9 +94,25 @@ const Navbar = () => {
               onChange={(e) => setFilter(e.target.value)}
             />
           </Search>
-          <Button variant="contained" className="ml-2" color="default">
-            Iniciar sesión
-          </Button>
+          {!user.estado ? (
+            <Button
+              variant="contained"
+              className="ml-2"
+              color="default"
+              onClick={() => loginUser()}
+            >
+              Iniciar sesión
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              className="ml-2"
+              color="secondary"
+              onClick={() => logout()}
+            >
+              Cerrar sesión
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
