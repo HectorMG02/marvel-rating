@@ -75,7 +75,7 @@ const MarvelCard = (props) => {
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }} className="marvelCard">
+    <Card className="marvelCard">
       <CardMedia component="img" image={card.cover_url} alt={card.title} />
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
