@@ -8,10 +8,59 @@ import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EventIcon from "@mui/icons-material/Event";
+import { FilterContext } from "../context/FilterProvider";
+import { db } from "../firebase";
 
 const FilmCard = (props) => {
   const { card } = props;
+  const { user } = React.useContext(FilterContext);
   const [rating, setRating] = React.useState(0);
+
+  React.useEffect(async () => {
+    const { uid } = user;
+    const { id } = card;
+
+    const snapshot = await db
+      .collection("marvel-rating")
+      .where("uid", "==", uid)
+      .where("film_id", "==", id)
+      .get();
+
+    if (snapshot.empty) {
+      db.collection("marvel-rating").add({
+        uid,
+        film_id: id,
+        rating: 0,
+      });
+    } else {
+      const doc = snapshot.docs[0];
+      const data = doc.data();
+      setRating(data.rating);
+    }
+  }, []);
+
+  const addRating = async (value) => {
+    const { uid } = user;
+    const { id } = card;
+
+    await db
+      .collection("marvel-rating")
+      .where("uid", "==", uid)
+      .where("film_id", "==", id)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          db.collection("marvel-rating").doc(doc.id).update({
+            rating: value,
+          });
+        });
+      });
+  };
+
+  const changeRating = (val) => {
+    setRating(val);
+    addRating(val);
+  };
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -41,7 +90,7 @@ const FilmCard = (props) => {
           name="simple-controlled"
           value={rating}
           onChange={(event, newValue) => {
-            setRating(newValue);
+            changeRating(newValue);
           }}
         />
         <Button size="small">Editar</Button>

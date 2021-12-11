@@ -4,7 +4,7 @@ import moment from "moment";
 import { FilterContext } from "../context/FilterProvider";
 
 const Pelis = () => {
-  const { filter, setFilter } = React.useContext(FilterContext);
+  const { filter, setFilter, user } = React.useContext(FilterContext);
   const [cards, setCards] = React.useState([]);
   const [copy, setCopy] = React.useState([]);
 
@@ -51,16 +51,22 @@ const Pelis = () => {
 
   return (
     <div className="container my-5">
-      <h3 className="text-center">Películas de Márvel</h3>
-      <hr />
+      {!user.estado ? (
+        <h3 className="text-center">Inicia sesión para ver las pelis🍿</h3>
+      ) : (
+        <div>
+          <h3 className="text-center">Películas de Márvel 🍿</h3>
+          <hr />
 
-      <div className="row mt-5">
-        {cards.map((card) => (
-          <div className="col-md-4 col-xs-12 my-3">
-            <FilmCard card={card} />
+          <div className="row mt-5">
+            {cards.map((card) => (
+              <div key={card.id} className="col-md-4 col-xs-12 my-3">
+                <FilmCard card={card} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
