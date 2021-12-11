@@ -3,7 +3,6 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import { Button } from "@material-ui/core";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -85,7 +84,7 @@ const FilmCard = (props) => {
           {card.overview}
         </Typography>
       </CardContent>
-      <CardActions className="justify-content-between">
+      <CardActions className="float-right">
         <Rating
           name="simple-controlled"
           value={rating}
@@ -93,7 +92,6 @@ const FilmCard = (props) => {
             changeRating(newValue);
           }}
         />
-        <Button size="small">Editar</Button>
       </CardActions>
     </Card>
   );

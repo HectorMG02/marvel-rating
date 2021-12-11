@@ -9,12 +9,7 @@ const Pelis = () => {
   const [copy, setCopy] = React.useState([]);
   const [orderBy, setOrderBy] = React.useState(0);
 
-  const options = [
-    "Fecha de salida",
-    "Ordenar por fase",
-    "Mas gustados",
-    "Menos gustados",
-  ];
+  const options = ["Fecha de salida", "Ordenar por fase"];
 
   React.useEffect(() => {
     const url =
@@ -23,7 +18,9 @@ const Pelis = () => {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        let films_data = data.data;
+        let films_data = data.data.sort((a, b) => {
+          return moment(b.release_date).diff(moment(a.release_date));
+        });
 
         films_data = films_data.filter((film) => {
           let film_date = film.release_date;

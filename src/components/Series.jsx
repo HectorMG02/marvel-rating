@@ -1,5 +1,4 @@
 import React from "react";
-import { withRouter } from "react-router";
 import FilmCard from "./FilmCard";
 
 const Series = () => {
