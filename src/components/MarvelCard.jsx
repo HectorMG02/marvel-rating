@@ -10,8 +10,8 @@ import EventIcon from "@mui/icons-material/Event";
 import { FilterContext } from "../context/FilterProvider";
 import { db } from "../firebase";
 
-const FilmCard = (props) => {
-  const { card } = props;
+const MarvelCard = (props) => {
+  const { card, type } = props;
   const { user } = React.useContext(FilterContext);
   const [rating, setRating] = React.useState(0);
 
@@ -22,18 +22,27 @@ const FilmCard = (props) => {
     const snapshot = await db
       .collection("marvel-rating")
       .where("uid", "==", uid)
-      .where("film_id", "==", id)
+      .where(`${type}_id`, "==", id)
       .get();
 
     if (snapshot.empty) {
-      db.collection("marvel-rating").add({
-        uid,
-        film_id: id,
-        rating: 0,
-      });
+      if (type == "film") {
+        db.collection("marvel-rating").add({
+          uid: uid,
+          film_id: id,
+          rating: 0,
+        });
+      } else if (type == "serie") {
+        db.collection("marvel-rating").add({
+          uid: uid,
+          serie_id: id,
+          rating: 0,
+        });
+      }
     } else {
       const doc = snapshot.docs[0];
       const data = doc.data();
+
       setRating(data.rating);
     }
   }, []);
@@ -45,7 +54,7 @@ const FilmCard = (props) => {
     await db
       .collection("marvel-rating")
       .where("uid", "==", uid)
-      .where("film_id", "==", id)
+      .where(`${type}_id`, "==", id)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -70,14 +79,20 @@ const FilmCard = (props) => {
         </Typography>
 
         <div className="text-muted">
-          Duración: ({card.duration} min)
-          <AccessTimeIcon fontSize="small" />
-          <br />
+          {type == "film" ? (
+            <span>
+              Duración: ({card.duration} min)
+              <AccessTimeIcon size="small" />
+              <br />
+            </span>
+          ) : null}
           Fecha de estreno: {card.release_date} <EventIcon fontSize="small" />
           <br />
           Fase: {card.phase}
           <br />
-          Escenas postcréditos: {card.post_credit_scenes}
+          {type === "film"
+            ? `Escenas postcréditos: ${card.post_credit_scenes}`
+            : null}
         </div>
         <hr />
         <Typography variant="body2" color="text.secondary">
@@ -97,4 +112,4 @@ const FilmCard = (props) => {
   );
 };
 
-export default FilmCard;
+export default MarvelCard;

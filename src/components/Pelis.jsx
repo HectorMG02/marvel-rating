@@ -1,5 +1,5 @@
 import React from "react";
-import FilmCard from "./FilmCard";
+import MarvelCard from "./MarvelCard";
 import moment from "moment";
 import { FilterContext } from "../context/FilterProvider";
 import { db } from "../firebase";
@@ -13,7 +13,6 @@ const Pelis = () => {
   const options = ["Fecha de salida", "Ordenar por fase"];
 
   React.useEffect(async () => {
-    let abortController = new AbortController();
     const url =
       "https://mcuapi.herokuapp.com/api/v1/movies?page=1&order=chronology%2CDESC";
 
@@ -112,7 +111,7 @@ const Pelis = () => {
           <div className="row mt-5">
             {cards.map((card) => (
               <div key={card.id} className="col-md-4 col-xs-12 my-3">
-                <FilmCard card={card} />
+                <MarvelCard card={card} type="film" />
               </div>
             ))}
           </div>
