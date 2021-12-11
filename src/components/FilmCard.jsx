@@ -5,7 +5,6 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { Button } from "@material-ui/core";
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EventIcon from "@mui/icons-material/Event";

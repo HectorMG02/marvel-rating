@@ -39,14 +39,10 @@ const Pelis = () => {
       let cards_filter = copy.filter((card) => {
         const { title, overview } = card;
         const title_lower = title.toLowerCase();
-        const overview_lower = overview.toLowerCase();
+        // const overview_lower = overview.toLowerCase();
         const filter_lower = filter.toLowerCase();
 
-        if (
-          title_lower.includes(filter_lower) ||
-          overview_lower.includes(filter_lower)
-        )
-          return card;
+        if (title_lower.includes(filter_lower)) return card;
       });
 
       setCards(cards_filter);

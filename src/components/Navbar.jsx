@@ -87,7 +87,7 @@ const Navbar = () => {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Spiderman..."
+              placeholder="Spider-Man..."
               inputProps={{ "aria-label": "search" }}
               search={filter}
               onChange={(e) => setFilter(e.target.value)}
