@@ -1,7 +1,7 @@
 # marvel-ranking
 
 Web en React para practicar lo que he ido aprendiendo
-- URL de la web: https://marvel-ranking.web.app/
+- URL de la web: https://marvel-ranking.web.app/ (si no carga las tarjetas de las pelis o series tras iniciar sesión, hay que esperar un poco porque es por temas de la api que uso, que no es la oficial de marvel ya que a dia de hoy no contiene información de las películas y series y la api que estoy usando no tiene el mejor rendimiento)
 
 - El firebase.js, no lo he subido por el tema de las keys, pero la estructura sería la siguiente:
 
